@@ -1,8 +1,8 @@
 ## README to build and run ##
 
 Dependencies:
-    Boost library
+1. Boost library
 
-Intructions to run
-    1. make
-    2. ./DeFiChain <input_file>
+Intructions to run:
+1. make
+2. ./DeFiChain <input_file>

@@ -30,7 +30,16 @@ WDELOBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)\\%.o)
 ####################### Targets beginning here #########################
 ########################################################################
 
-all: $(APPNAME)
+MKDIR_P = mkdir -p
+
+.PHONY: directories
+
+all: directories $(APPNAME)
+
+directories: $(OBJDIR)
+
+$(OBJDIR):
+	$(MKDIR_P) $(OBJDIR)
 
 # Builds the app
 $(APPNAME): $(OBJ)
