@@ -5,7 +5,7 @@
 # Compiler settings - Can be customized.
 CC = g++
 CXXFLAGS = -std=c++14 -Wall
-LDFLAGS = -pthread -lgtest_main -lgtest -lpthread
+LDFLAGS = -lcurl -pthread -lgtest_main -lgtest -lpthread
 
 # Makefile settings - Can be customized.
 APPNAME = DeFiChainTest

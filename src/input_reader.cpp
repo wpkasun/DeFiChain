@@ -1,13 +1,11 @@
 #include "app_consts.h"
 #include "currency_converter.h"
 #include "input_reader.h"
+#include "live_rates_reader.h"
 #include "printer.h"
 
-#include <iomanip>
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <stdlib.h>
 
 InputReader::InputReader()
 {
@@ -17,9 +15,9 @@ InputReader::~InputReader()
 {
 }
 
-void InputReader::readInputFile(const std::string& fileName)
+void InputReader::readInputFile(const std::string& filePath)
 {
-	std::ifstream ifs(fileName);
+	std::ifstream ifs(filePath);
     if (ifs.is_open()) {
         CurrencyRates currencyRates;
         std::string line;
@@ -27,9 +25,20 @@ void InputReader::readInputFile(const std::string& fileName)
         {
             if (line == "CURRENT")
             {
-                std::cout << "Live rates not implemented yet." << line << std::endl;
-                ifs.close();
-                return;
+                MultiPrecFloat btcUsdRate, ethUsdRate, dogeUsdRate;
+                LiveRatesReader liveRatesReader;
+                if (liveRatesReader.getLiveRates(btcUsdRate, ethUsdRate, dogeUsdRate))
+                {
+                    currencyRates.addUsdRate(BTC, btcUsdRate);
+                    currencyRates.addUsdRate(ETH, ethUsdRate);
+                    currencyRates.addUsdRate(DOGE, dogeUsdRate);
+                }
+                else
+                {
+                    std::cout << "Failed taking live current spot rates." << std::endl;
+                    return;
+                }
+
             }
             else
             {
@@ -54,7 +63,6 @@ void InputReader::readInputFile(const std::string& fileName)
         }
         CurrencyConverter currencyConverter(currencyRates);
         while (std::getline(ifs, line)) {
-            //std::cout << line << std::endl;
             std::istringstream iss(line);
             std::string word;
             if (std::getline(iss, word, ' '))
@@ -88,6 +96,6 @@ void InputReader::readInputFile(const std::string& fileName)
         ifs.close();
     }
     else {
-        std::cout << "Input file: \"" << fileName << "\"" "does not exist." << std::endl;
+        std::cout << "Input file: \"" << filePath << "\"" "does not exist." << std::endl;
     }
 }

@@ -8,7 +8,7 @@ class InputReader
 public:
 	InputReader();
 	~InputReader();
-	void readInputFile(const std::string& fileName);
+	void readInputFile(const std::string& filePath);
 
 private:
 

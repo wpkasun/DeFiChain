@@ -13,7 +13,9 @@ CurrencyConverter::~CurrencyConverter()
 MultiPrecFloat CurrencyConverter::getEthRate(CurrencyType currencyType)
 {
     MultiPrecFloat srcCurrencyRate = currencyRates.getUsdRate(currencyType);
-    return srcCurrencyRate / currencyRates.getUsdRate(ETH) ;
+    MultiPrecFloat ethRate = currencyRates.getUsdRate(ETH);
+    assert((ethRate > 0) && "Currenry rates should have valid value.");
+    return srcCurrencyRate / ethRate;
 }
 
 MultiPrecFloat CurrencyConverter::getSaleValue(MultiPrecFloat ethSaleRate, CurrencyType currencyType, MultiPrecFloat amount)

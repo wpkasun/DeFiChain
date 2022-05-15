@@ -4,8 +4,6 @@
 #include "app_consts.h"
 #include "currency_rates.h"
 
-#include <string>
-
 class CurrencyConverter
 {
 public:
